@@ -1,0 +1,988 @@
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_GestaoMultas_V3" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0">
+<bpmn:collaboration id="Collaboration_GestaoMultas">
+<bpmn:participant id="Participant_GestaoMultas" name="GESTÃO DAS MULTAS" processRef="Process_GestaoMultas"/>
+</bpmn:collaboration>
+<bpmn:process id="Process_GestaoMultas" isExecutable="true">
+<bpmn:laneSet id="LaneSet_1">
+<bpmn:lane id="Lane_AssistenteFrotas" name="Assistente de Frotas (Sede)">
+<bpmn:flowNodeRef>StartEvent_NotificacaoRecebida</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_TipoVeiculo</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_VerificarNotificacoesProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_IncluirInfracaoSankhyaProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>ServiceTask_StreamlitProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AnalisarInfoStreamlitProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_CondutorIdentificadoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AcionarMonitoriaProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_EnviarNotificacaoSupervisorProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_MergeIdentificacaoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AtualizarStatusSankhyaProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_AnalisarRecursoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_ElaborarRecursoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_RecursoAceitoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_EncerrarProcessoCanceladoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>EndEvent_MultaCanceladaProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_MergePagamentoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_GerarBoletoSNE</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AnexarBoletoGerarFinanceiro</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_TransferirPontuacaoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>EndEvent_MultaPagaProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_ReceberNotificacaoAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_LancarInfracaoSankhyaAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>ServiceTask_StreamlitAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AnalisarInfoStreamlitAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_CondutorIdentificadoAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AcionarMonitoriaAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_EnviarNotificacaoSupervisorAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_MergeIdentificacaoAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AtualizarStatusSankhyaAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_AnalisarRecursoAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AcionarLocadoraRecurso</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_RecursoAceitoAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_EncerrarProcessoCanceladoAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>EndEvent_MultaCanceladaAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Gateway_MergePagamentoAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_GerarDocContasPagar</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AnexarBoletoAtualizarData</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_TransferirPontuacaoAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>EndEvent_MultaPagaAlugado</bpmn:flowNodeRef>
+</bpmn:lane>
+<bpmn:lane id="Lane_SupervisorFrotas" name="Supervisor de Frotas (Unidade/Sede)">
+<bpmn:flowNodeRef>Activity_ColetarAssinaturaProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_EnviarDocCorporativoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_ColetarAssinaturaAlugado</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_EnviarDocCorporativoAlugado</bpmn:flowNodeRef>
+</bpmn:lane>
+<bpmn:lane id="Lane_CondutorInfrator" name="Condutor Infrator">
+<bpmn:flowNodeRef>Activity_AssinarValeDescontoProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_AssinarValeDescontoAlugado</bpmn:flowNodeRef>
+</bpmn:lane>
+<bpmn:lane id="Lane_DepartamentoMonitoria" name="Departamento de Monitoria">
+<bpmn:flowNodeRef>Activity_PesquisaAdicionalProprio</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>Activity_PesquisaAdicionalAlugado</bpmn:flowNodeRef>
+</bpmn:lane>
+<bpmn:lane id="Lane_LocadorasParceiras" name="Locadoras Parceiras">
+<bpmn:flowNodeRef>Activity_ElaborarRecursoAlugado</bpmn:flowNodeRef>
+</bpmn:lane>
+</bpmn:laneSet>
+<bpmn:startEvent id="StartEvent_NotificacaoRecebida" name="Notificação de Infração Recebida">
+<bpmn:outgoing>Flow_To_GatewayTipoVeiculo</bpmn:outgoing>
+</bpmn:startEvent>
+<bpmn:exclusiveGateway id="Gateway_TipoVeiculo" name="Tipo de Veículo?">
+<bpmn:incoming>Flow_To_GatewayTipoVeiculo</bpmn:incoming>
+<bpmn:outgoing>Flow_VeiculoProprio</bpmn:outgoing>
+<bpmn:outgoing>Flow_VeiculoAlugado</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_VerificarNotificacoesProprio" name="Verificar Notificações (E-mail e SNE)">
+<bpmn:documentation>O Assistente de Frota da Sede acessa, diariamente, a caixa de e-mail (infracoes@dolpengenharia.com.br) e o Sistema de Notificação Eletrônica (SNE) da SENATRAN para verificar o recebimento de novas notificações de multas.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-VerificarNotificacoes"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_VeiculoProprio</bpmn:incoming>
+<bpmn:outgoing>Flow_0kpycjd</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_IncluirInfracaoSankhyaProprio" name="Incluir Infração no Sankhya">
+<bpmn:documentation>Por meio da captura das informações contidas na caixa de e-mail (infracoes@dolpengenharia.com.br), o Assistente de Frotas da Sede inclui as multas e infrações de trânsito manualmente no Módulo de Multas do sistema Sankhya.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-IncluirInfracao"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_0kpycjd</bpmn:incoming>
+<bpmn:outgoing>Flow_07t8k1x</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:serviceTask id="ServiceTask_StreamlitProprio" name="Levantar Informações do Condutor (Streamlit)">
+<bpmn:documentation>O sistema Streamlit faz um levantamento automatizado das informações: no sistema de rastreamento de veículos, no sistema Mars, na plataforma de abastecimento e em outros sistemas se necessário; verificando quem foi o possível responsável pela infração e obtendo as evidências.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:taskDefinition type="streamlit-identificacao"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_07t8k1x</bpmn:incoming>
+<bpmn:outgoing>Flow_1v2wpof</bpmn:outgoing>
+</bpmn:serviceTask>
+<bpmn:userTask id="Activity_AnalisarInfoStreamlitProprio" name="Analisar Informações do Sistema">
+<bpmn:documentation>O Assistente Frota da Sede analisa as informações geradas pelo sistema Streamlit e verifica se o condutor infrator foi identificado ou não.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AnalisarInfo"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_1v2wpof</bpmn:incoming>
+<bpmn:outgoing>Flow_0v82e07</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:exclusiveGateway id="Gateway_CondutorIdentificadoProprio" name="Condutor Identificado?">
+<bpmn:incoming>Flow_0v82e07</bpmn:incoming>
+<bpmn:outgoing>Flow_CondutorNaoIdentificadoProprio</bpmn:outgoing>
+<bpmn:outgoing>Flow_CondutorIdentificadoProprio</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_AcionarMonitoriaProprio" name="Acionar Departamento de Monitoria">
+<bpmn:documentation>Caso o condutor infrator não seja identificado pelo sistema Streamlit, o Assistente de Frota da Sede aciona o Departamento de Monitoria para apoiar uma pesquisa adicional.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AcionarMonitoria"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_CondutorNaoIdentificadoProprio</bpmn:incoming>
+<bpmn:outgoing>Flow_1g97y17</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_PesquisaAdicionalProprio" name="Realizar Pesquisa Adicional">
+<bpmn:documentation>O Departamento de Monitoria, bem como os responsáveis pelos Departamentos de Frotas da Unidade e da Sede, realizam uma pesquisa adicional visando à identificação do condutor responsável pela infração.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-PesquisaAdicional"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_1g97y17</bpmn:incoming>
+<bpmn:outgoing>Flow_14r9s7c</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_EnviarNotificacaoSupervisorProprio" name="Enviar Notificação ao Supervisor">
+<bpmn:documentation>O Assistente de Frota da Sede envia a notificação, juntamente com as evidências e a identificação do infrator, por e-mail para o Supervisor de Frota responsável, solicitando a assinatura do condutor no vale de desconto.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-EnviarNotificacao"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_CondutorIdentificadoProprio</bpmn:incoming>
+<bpmn:outgoing>Flow_0q28qfu</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_ColetarAssinaturaProprio" name="Coletar Assinatura do Condutor">
+<bpmn:documentation>O Supervisor de Frota da Unidade ou da Sede localiza o condutor infrator, comunica a existência da multa, apresenta as evidências e coleta a assinatura do colaborador no vale de desconto em folha.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-ColetarAssinatura"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_0q28qfu</bpmn:incoming>
+<bpmn:outgoing>Flow_07y0pdx</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_AssinarValeDescontoProprio" name="Assinar Vale de Desconto">
+<bpmn:documentation>O condutor infrator assina o vale de desconto e assume a responsabilidade pela infração.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AssinarVale"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_07y0pdx</bpmn:incoming>
+<bpmn:outgoing>Flow_12m78c5</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_EnviarDocCorporativoProprio" name="Enviar Documentação para Frotas Corporativo">
+<bpmn:documentation>O Supervisor de Frota Local envia a documentação assinada por e-mail para o Departamento de Frotas Corporativo.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-EnviarDoc"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_12m78c5</bpmn:incoming>
+<bpmn:outgoing>Flow_0s36t13</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:exclusiveGateway id="Gateway_MergeIdentificacaoProprio">
+<bpmn:incoming>Flow_14r9s7c</bpmn:incoming>
+<bpmn:incoming>Flow_0s36t13</bpmn:incoming>
+<bpmn:outgoing>Flow_1l89x5e</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_AtualizarStatusSankhyaProprio" name="Atualizar Status no Sankhya">
+<bpmn:documentation>O Assistente de Frotas da Sede reúne toda a documentação relacionada à infração e atualiza no sistema Sankhya o status da multa.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AtualizarStatus"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_1l89x5e</bpmn:incoming>
+<bpmn:outgoing>Flow_1d1fjd0</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:exclusiveGateway id="Gateway_AnalisarRecursoProprio" name="Analisar Possibilidade de Recurso?">
+<bpmn:incoming>Flow_1d1fjd0</bpmn:incoming>
+<bpmn:outgoing>Flow_RecorrerProprio</bpmn:outgoing>
+<bpmn:outgoing>Flow_PagarProprio</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_ElaborarRecursoProprio" name="Elaborar e Protocolar Recurso">
+<bpmn:documentation>Caso seja identificada alguma condição que justifique a nulidade da infração, deverá ser elaborado um recurso administrativo e protocolado junto ao órgão autuador.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-ElaborarRecurso"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_RecorrerProprio</bpmn:incoming>
+<bpmn:outgoing>Flow_065v4i9</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:exclusiveGateway id="Gateway_RecursoAceitoProprio" name="Recurso Aceito?">
+<bpmn:incoming>Flow_065v4i9</bpmn:incoming>
+<bpmn:outgoing>Flow_RecursoNaoAceitoProprio</bpmn:outgoing>
+<bpmn:outgoing>Flow_RecursoAceitoProprio</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_EncerrarProcessoCanceladoProprio" name="Encerrar Processo Interno">
+<bpmn:documentation>Caso o recurso seja aceito e a multa seja cancelada, o processo interno é encerrado.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-EncerrarProcesso"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_RecursoAceitoProprio</bpmn:incoming>
+<bpmn:outgoing>Flow_01s750m</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:endEvent id="EndEvent_MultaCanceladaProprio" name="Multa Cancelada">
+<bpmn:incoming>Flow_01s750m</bpmn:incoming>
+</bpmn:endEvent>
+<bpmn:exclusiveGateway id="Gateway_MergePagamentoProprio">
+<bpmn:incoming>Flow_PagarProprio</bpmn:incoming>
+<bpmn:incoming>Flow_RecursoNaoAceitoProprio</bpmn:incoming>
+<bpmn:outgoing>Flow_0j33yvj</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_GerarBoletoSNE" name="Gerar Boleto no SNE">
+<bpmn:documentation>Caso a opção adotada seja pelo pagamento da multa, o Assistente de Frotas da Sede acessa o Sistema de Notificação Eletrônica (SNE) para gerar o boleto bancário.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-GerarBoleto"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_0j33yvj</bpmn:incoming>
+<bpmn:outgoing>Flow_0o95c6p</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_AnexarBoletoGerarFinanceiro" name="Anexar Boleto e Gerar Financeiro no Sankhya">
+<bpmn:documentation>O Assistente anexa o boleto no sistema Sankhya, atualiza a data de pagamento e executa o processo de geração financeira.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AnexarBoleto"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_0o95c6p</bpmn:incoming>
+<bpmn:outgoing>Flow_14a4bza</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_TransferirPontuacaoProprio" name="Realizar Transferência de Pontuação">
+<bpmn:documentation>O Assistente de Frota da Sede acessa a plataforma SNE e realiza os lançamentos das informações relacionadas à identificação do condutor infrator. Caso o órgão não seja integrado, protocola diretamente.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-TransferirPontuacao"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_14a4bza</bpmn:incoming>
+<bpmn:outgoing>Flow_0n34wst</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:endEvent id="EndEvent_MultaPagaProprio" name="Multa Paga e Pontuação Transferida">
+<bpmn:incoming>Flow_0n34wst</bpmn:incoming>
+</bpmn:endEvent>
+<bpmn:userTask id="Activity_ReceberNotificacaoAlugado" name="Receber Notificação da Locadora">
+<bpmn:documentation>A Equipe de Frotas Corporativa recebe as notificações de infrações, acompanhadas da nota de débito e do boleto, por meio da caixa de e-mail do grupo ou por consulta nos portais das locadoras parceiras.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-ReceberNotificacaoAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_VeiculoAlugado</bpmn:incoming>
+<bpmn:outgoing>Flow_0y1npgf</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_LancarInfracaoSankhyaAlugado" name="Lançar Infração no Sankhya">
+<bpmn:documentation>Por meio da captura das informações, as multas e infrações de trânsito serão lançadas manualmente no Módulo de Multas do sistema Sankhya.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-LancarInfracaoAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_0y1npgf</bpmn:incoming>
+<bpmn:outgoing>Flow_09p663w</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:serviceTask id="ServiceTask_StreamlitAlugado" name="Levantar Informações do Condutor (Streamlit)">
+<bpmn:documentation>Segue o mesmo processo conforme o tópico 8.1.3 - Identificação do Condutor. O sistema Streamlit faz um levantamento automatizado das informações.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:taskDefinition type="streamlit-identificacao"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_09p663w</bpmn:incoming>
+<bpmn:outgoing>Flow_015k39n</bpmn:outgoing>
+</bpmn:serviceTask>
+<bpmn:userTask id="Activity_AnalisarInfoStreamlitAlugado" name="Analisar Informações do Sistema">
+<bpmn:documentation>O Assistente Frota da Sede analisa as informações geradas pelo sistema Streamlit e verifica se o condutor infrator foi identificado ou não.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AnalisarInfoAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_015k39n</bpmn:incoming>
+<bpmn:outgoing>Flow_01r3g2l</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:exclusiveGateway id="Gateway_CondutorIdentificadoAlugado" name="Condutor Identificado?">
+<bpmn:incoming>Flow_01r3g2l</bpmn:incoming>
+<bpmn:outgoing>Flow_CondutorNaoIdentificadoAlugado</bpmn:outgoing>
+<bpmn:outgoing>Flow_CondutorIdentificadoAlugado</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_AcionarMonitoriaAlugado" name="Acionar Departamento de Monitoria">
+<bpmn:documentation>Caso o condutor infrator não seja identificado, o Assistente de Frota da Sede aciona o Departamento de Monitoria para apoiar uma pesquisa adicional.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AcionarMonitoriaAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_CondutorNaoIdentificadoAlugado</bpmn:incoming>
+<bpmn:outgoing>Flow_186x24a</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_PesquisaAdicionalAlugado" name="Realizar Pesquisa Adicional">
+<bpmn:documentation>O Departamento de Monitoria realiza uma pesquisa adicional visando à identificação do condutor responsável pela infração.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-PesquisaAdicionalAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_186x24a</bpmn:incoming>
+<bpmn:outgoing>Flow_16157f1</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_EnviarNotificacaoSupervisorAlugado" name="Enviar Notificação ao Supervisor">
+<bpmn:documentation>O Assistente de Frota da Sede envia a notificação e evidências por e-mail para o Supervisor de Frota responsável, solicitando a assinatura do condutor.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-EnviarNotificacaoAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_CondutorIdentificadoAlugado</bpmn:incoming>
+<bpmn:outgoing>Flow_17e7539</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_ColetarAssinaturaAlugado" name="Coletar Assinatura do Condutor">
+<bpmn:documentation>O Supervisor de Frota localiza o condutor, comunica a multa, apresenta evidências e coleta a assinatura no vale de desconto.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-ColetarAssinaturaAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_17e7539</bpmn:incoming>
+<bpmn:outgoing>Flow_1h8a0m2</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_AssinarValeDescontoAlugado" name="Assinar Vale de Desconto">
+<bpmn:documentation>O condutor infrator assina o vale de desconto e assume a responsabilidade pela infração.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AssinarValeAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_1h8a0m2</bpmn:incoming>
+<bpmn:outgoing>Flow_1q7654x</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_EnviarDocCorporativoAlugado" name="Enviar Documentação para Frotas Corporativo">
+<bpmn:documentation>O Supervisor de Frota Local envia a documentação assinada por e-mail para o Departamento de Frotas Corporativo.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-EnviarDocAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_1q7654x</bpmn:incoming>
+<bpmn:outgoing>Flow_0kdx9b8</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:exclusiveGateway id="Gateway_MergeIdentificacaoAlugado">
+<bpmn:incoming>Flow_16157f1</bpmn:incoming>
+<bpmn:incoming>Flow_0kdx9b8</bpmn:incoming>
+<bpmn:outgoing>Flow_07s33pe</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_AtualizarStatusSankhyaAlugado" name="Atualizar Status no Sankhya">
+<bpmn:documentation>O Assistente de Frotas da Sede reúne toda a documentação e atualiza no sistema Sankhya o status da multa.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AtualizarStatusAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_07s33pe</bpmn:incoming>
+<bpmn:outgoing>Flow_1l81b5p</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:exclusiveGateway id="Gateway_AnalisarRecursoAlugado" name="Analisar Possibilidade de Recurso?">
+<bpmn:incoming>Flow_1l81b5p</bpmn:incoming>
+<bpmn:outgoing>Flow_RecorrerAlugado</bpmn:outgoing>
+<bpmn:outgoing>Flow_PagarAlugado</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_AcionarLocadoraRecurso" name="Acionar Locadora para Recurso">
+<bpmn:documentation>Caso seja identificada alguma condição que possa resultar na nulidade da infração, a locadora parceira deve ser acionada.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AcionarLocadora"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_RecorrerAlugado</bpmn:incoming>
+<bpmn:outgoing>Flow_14r2e7w</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_ElaborarRecursoAlugado" name="Elaborar e Protocolar Recurso">
+<bpmn:documentation>A locadora parceira elabora o recurso administrativo e protocola junto ao órgão competente.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-ElaborarRecursoAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_14r2e7w</bpmn:incoming>
+<bpmn:outgoing>Flow_008t07b</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:exclusiveGateway id="Gateway_RecursoAceitoAlugado" name="Recurso Aceito?">
+<bpmn:incoming>Flow_008t07b</bpmn:incoming>
+<bpmn:outgoing>Flow_RecursoNaoAceitoAlugado</bpmn:outgoing>
+<bpmn:outgoing>Flow_RecursoAceitoAlugado</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_EncerrarProcessoCanceladoAlugado" name="Encerrar Processo Interno">
+<bpmn:documentation>Se o recurso for aceito e a multa for cancelada, o processo interno é considerado encerrado.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-EncerrarProcessoAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_RecursoAceitoAlugado</bpmn:incoming>
+<bpmn:outgoing>Flow_146j8wu</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:endEvent id="EndEvent_MultaCanceladaAlugado" name="Multa Cancelada">
+<bpmn:incoming>Flow_146j8wu</bpmn:incoming>
+</bpmn:endEvent>
+<bpmn:exclusiveGateway id="Gateway_MergePagamentoAlugado">
+<bpmn:incoming>Flow_PagarAlugado</bpmn:incoming>
+<bpmn:incoming>Flow_RecursoNaoAceitoAlugado</bpmn:incoming>
+<bpmn:outgoing>Flow_1u325e1</bpmn:outgoing>
+</bpmn:exclusiveGateway>
+<bpmn:userTask id="Activity_GerarDocContasPagar" name="Gerar Documento para Contas a Pagar">
+<bpmn:documentation>Caso a opção seja pelo pagamento da multa, o Assistente de Frotas da Sede acessa o sistema Sankhya para gerar o documento para o setor de Contas a Pagar.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-GerarDocContasPagar"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_1u325e1</bpmn:incoming>
+<bpmn:outgoing>Flow_1t8857z</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_AnexarBoletoAtualizarData" name="Anexar Boleto e Atualizar Data de Pagamento">
+<bpmn:documentation>O Assistente anexa o boleto bancário no sistema e atualiza a data de pagamento.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-AnexarBoletoAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_1t8857z</bpmn:incoming>
+<bpmn:outgoing>Flow_0e07198</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:userTask id="Activity_TransferirPontuacaoAlugado" name="Realizar Transferência de Pontuação">
+<bpmn:documentation>O Assistente de Frotas protocola a documentação necessária por e-mail ou anexa diretamente no portal da locadora para a transferência de pontuação.</bpmn:documentation>
+<bpmn:extensionElements>
+<zeebe:userTask/>
+<zeebe:formDefinition formId="form-TransferirPontuacaoAlugado"/>
+</bpmn:extensionElements>
+<bpmn:incoming>Flow_0e07198</bpmn:incoming>
+<bpmn:outgoing>Flow_0w04z2b</bpmn:outgoing>
+</bpmn:userTask>
+<bpmn:endEvent id="EndEvent_MultaPagaAlugado" name="Multa Paga e Pontuação Transferida">
+<bpmn:incoming>Flow_0w04z2b</bpmn:incoming>
+</bpmn:endEvent>
+<bpmn:sequenceFlow id="Flow_To_GatewayTipoVeiculo" sourceRef="StartEvent_NotificacaoRecebida" targetRef="Gateway_TipoVeiculo"/>
+<bpmn:sequenceFlow id="Flow_VeiculoProprio" name="Veículos Próprios" sourceRef="Gateway_TipoVeiculo" targetRef="Activity_VerificarNotificacoesProprio">
+<bpmn:conditionExpression>= tipoVeiculo = "proprio"</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_VeiculoAlugado" name="Veículos Alugados" sourceRef="Gateway_TipoVeiculo" targetRef="Activity_ReceberNotificacaoAlugado">
+<bpmn:conditionExpression>= tipoVeiculo = "alugado"</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_0kpycjd" sourceRef="Activity_VerificarNotificacoesProprio" targetRef="Activity_IncluirInfracaoSankhyaProprio"/>
+<bpmn:sequenceFlow id="Flow_07t8k1x" sourceRef="Activity_IncluirInfracaoSankhyaProprio" targetRef="ServiceTask_StreamlitProprio"/>
+<bpmn:sequenceFlow id="Flow_1v2wpof" sourceRef="ServiceTask_StreamlitProprio" targetRef="Activity_AnalisarInfoStreamlitProprio"/>
+<bpmn:sequenceFlow id="Flow_0v82e07" sourceRef="Activity_AnalisarInfoStreamlitProprio" targetRef="Gateway_CondutorIdentificadoProprio"/>
+<bpmn:sequenceFlow id="Flow_CondutorNaoIdentificadoProprio" name="Não" sourceRef="Gateway_CondutorIdentificadoProprio" targetRef="Activity_AcionarMonitoriaProprio">
+<bpmn:conditionExpression>= condutorIdentificado = false</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_CondutorIdentificadoProprio" name="Sim" sourceRef="Gateway_CondutorIdentificadoProprio" targetRef="Activity_EnviarNotificacaoSupervisorProprio">
+<bpmn:conditionExpression>= condutorIdentificado = true</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_1g97y17" sourceRef="Activity_AcionarMonitoriaProprio" targetRef="Activity_PesquisaAdicionalProprio"/>
+<bpmn:sequenceFlow id="Flow_14r9s7c" sourceRef="Activity_PesquisaAdicionalProprio" targetRef="Gateway_MergeIdentificacaoProprio"/>
+<bpmn:sequenceFlow id="Flow_0q28qfu" sourceRef="Activity_EnviarNotificacaoSupervisorProprio" targetRef="Activity_ColetarAssinaturaProprio"/>
+<bpmn:sequenceFlow id="Flow_07y0pdx" sourceRef="Activity_ColetarAssinaturaProprio" targetRef="Activity_AssinarValeDescontoProprio"/>
+<bpmn:sequenceFlow id="Flow_12m78c5" sourceRef="Activity_AssinarValeDescontoProprio" targetRef="Activity_EnviarDocCorporativoProprio"/>
+<bpmn:sequenceFlow id="Flow_0s36t13" sourceRef="Activity_EnviarDocCorporativoProprio" targetRef="Gateway_MergeIdentificacaoProprio"/>
+<bpmn:sequenceFlow id="Flow_1l89x5e" sourceRef="Gateway_MergeIdentificacaoProprio" targetRef="Activity_AtualizarStatusSankhyaProprio"/>
+<bpmn:sequenceFlow id="Flow_1d1fjd0" sourceRef="Activity_AtualizarStatusSankhyaProprio" targetRef="Gateway_AnalisarRecursoProprio"/>
+<bpmn:sequenceFlow id="Flow_RecorrerProprio" name="Sim" sourceRef="Gateway_AnalisarRecursoProprio" targetRef="Activity_ElaborarRecursoProprio">
+<bpmn:conditionExpression>= analisarRecurso = true</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_PagarProprio" name="Não" sourceRef="Gateway_AnalisarRecursoProprio" targetRef="Gateway_MergePagamentoProprio">
+<bpmn:conditionExpression>= analisarRecurso = false</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_065v4i9" sourceRef="Activity_ElaborarRecursoProprio" targetRef="Gateway_RecursoAceitoProprio"/>
+<bpmn:sequenceFlow id="Flow_RecursoNaoAceitoProprio" name="Não" sourceRef="Gateway_RecursoAceitoProprio" targetRef="Gateway_MergePagamentoProprio">
+<bpmn:conditionExpression>= recursoAceito = false</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_RecursoAceitoProprio" name="Sim" sourceRef="Gateway_RecursoAceitoProprio" targetRef="Activity_EncerrarProcessoCanceladoProprio">
+<bpmn:conditionExpression>= recursoAceito = true</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_01s750m" sourceRef="Activity_EncerrarProcessoCanceladoProprio" targetRef="EndEvent_MultaCanceladaProprio"/>
+<bpmn:sequenceFlow id="Flow_0j33yvj" sourceRef="Gateway_MergePagamentoProprio" targetRef="Activity_GerarBoletoSNE"/>
+<bpmn:sequenceFlow id="Flow_0o95c6p" sourceRef="Activity_GerarBoletoSNE" targetRef="Activity_AnexarBoletoGerarFinanceiro"/>
+<bpmn:sequenceFlow id="Flow_14a4bza" sourceRef="Activity_AnexarBoletoGerarFinanceiro" targetRef="Activity_TransferirPontuacaoProprio"/>
+<bpmn:sequenceFlow id="Flow_0n34wst" sourceRef="Activity_TransferirPontuacaoProprio" targetRef="EndEvent_MultaPagaProprio"/>
+<bpmn:sequenceFlow id="Flow_0y1npgf" sourceRef="Activity_ReceberNotificacaoAlugado" targetRef="Activity_LancarInfracaoSankhyaAlugado"/>
+<bpmn:sequenceFlow id="Flow_09p663w" sourceRef="Activity_LancarInfracaoSankhyaAlugado" targetRef="ServiceTask_StreamlitAlugado"/>
+<bpmn:sequenceFlow id="Flow_015k39n" sourceRef="ServiceTask_StreamlitAlugado" targetRef="Activity_AnalisarInfoStreamlitAlugado"/>
+<bpmn:sequenceFlow id="Flow_01r3g2l" sourceRef="Activity_AnalisarInfoStreamlitAlugado" targetRef="Gateway_CondutorIdentificadoAlugado"/>
+<bpmn:sequenceFlow id="Flow_CondutorNaoIdentificadoAlugado" name="Não" sourceRef="Gateway_CondutorIdentificadoAlugado" targetRef="Activity_AcionarMonitoriaAlugado">
+<bpmn:conditionExpression>= condutorIdentificado = false</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_CondutorIdentificadoAlugado" name="Sim" sourceRef="Gateway_CondutorIdentificadoAlugado" targetRef="Activity_EnviarNotificacaoSupervisorAlugado">
+<bpmn:conditionExpression>= condutorIdentificado = true</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_186x24a" sourceRef="Activity_AcionarMonitoriaAlugado" targetRef="Activity_PesquisaAdicionalAlugado"/>
+<bpmn:sequenceFlow id="Flow_16157f1" sourceRef="Activity_PesquisaAdicionalAlugado" targetRef="Gateway_MergeIdentificacaoAlugado"/>
+<bpmn:sequenceFlow id="Flow_17e7539" sourceRef="Activity_EnviarNotificacaoSupervisorAlugado" targetRef="Activity_ColetarAssinaturaAlugado"/>
+<bpmn:sequenceFlow id="Flow_1h8a0m2" sourceRef="Activity_ColetarAssinaturaAlugado" targetRef="Activity_AssinarValeDescontoAlugado"/>
+<bpmn:sequenceFlow id="Flow_1q7654x" sourceRef="Activity_AssinarValeDescontoAlugado" targetRef="Activity_EnviarDocCorporativoAlugado"/>
+<bpmn:sequenceFlow id="Flow_0kdx9b8" sourceRef="Activity_EnviarDocCorporativoAlugado" targetRef="Gateway_MergeIdentificacaoAlugado"/>
+<bpmn:sequenceFlow id="Flow_07s33pe" sourceRef="Gateway_MergeIdentificacaoAlugado" targetRef="Activity_AtualizarStatusSankhyaAlugado"/>
+<bpmn:sequenceFlow id="Flow_1l81b5p" sourceRef="Activity_AtualizarStatusSankhyaAlugado" targetRef="Gateway_AnalisarRecursoAlugado"/>
+<bpmn:sequenceFlow id="Flow_RecorrerAlugado" name="Sim" sourceRef="Gateway_AnalisarRecursoAlugado" targetRef="Activity_AcionarLocadoraRecurso">
+<bpmn:conditionExpression>= analisarRecurso = true</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_PagarAlugado" name="Não" sourceRef="Gateway_AnalisarRecursoAlugado" targetRef="Gateway_MergePagamentoAlugado">
+<bpmn:conditionExpression>= analisarRecurso = false</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_14r2e7w" sourceRef="Activity_AcionarLocadoraRecurso" targetRef="Activity_ElaborarRecursoAlugado"/>
+<bpmn:sequenceFlow id="Flow_008t07b" sourceRef="Activity_ElaborarRecursoAlugado" targetRef="Gateway_RecursoAceitoAlugado"/>
+<bpmn:sequenceFlow id="Flow_RecursoNaoAceitoAlugado" name="Não" sourceRef="Gateway_RecursoAceitoAlugado" targetRef="Gateway_MergePagamentoAlugado">
+<bpmn:conditionExpression>= recursoAceito = false</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_RecursoAceitoAlugado" name="Sim" sourceRef="Gateway_RecursoAceitoAlugado" targetRef="Activity_EncerrarProcessoCanceladoAlugado">
+<bpmn:conditionExpression>= recursoAceito = true</bpmn:conditionExpression>
+</bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_146j8wu" sourceRef="Activity_EncerrarProcessoCanceladoAlugado" targetRef="EndEvent_MultaCanceladaAlugado"/>
+<bpmn:sequenceFlow id="Flow_1u325e1" sourceRef="Gateway_MergePagamentoAlugado" targetRef="Activity_GerarDocContasPagar"/>
+<bpmn:sequenceFlow id="Flow_1t8857z" sourceRef="Activity_GerarDocContasPagar" targetRef="Activity_AnexarBoletoAtualizarData"/>
+<bpmn:sequenceFlow id="Flow_0e07198" sourceRef="Activity_AnexarBoletoAtualizarData" targetRef="Activity_TransferirPontuacaoAlugado"/>
+<bpmn:sequenceFlow id="Flow_0w04z2b" sourceRef="Activity_TransferirPontuacaoAlugado" targetRef="EndEvent_MultaPagaAlugado"/>
+</bpmn:process>
+<bpmndi:BPMNDiagram id="BPMNDiagram_1">
+<bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_GestaoMultas">
+<bpmndi:BPMNShape id="Participant_GestaoMultas_di" bpmnElement="Participant_GestaoMultas" isHorizontal="true">
+<dc:Bounds x="160" y="80" width="4140" height="1350"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_AssistenteFrotas_di" bpmnElement="Lane_AssistenteFrotas" isHorizontal="true">
+<dc:Bounds x="190" y="80" width="4110" height="650"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_SupervisorFrotas_di" bpmnElement="Lane_SupervisorFrotas" isHorizontal="true">
+<dc:Bounds x="190" y="730" width="4110" height="200"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_CondutorInfrator_di" bpmnElement="Lane_CondutorInfrator" isHorizontal="true">
+<dc:Bounds x="190" y="930" width="4110" height="150"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_DepartamentoMonitoria_di" bpmnElement="Lane_DepartamentoMonitoria" isHorizontal="true">
+<dc:Bounds x="190" y="1080" width="4110" height="150"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_LocadorasParceiras_di" bpmnElement="Lane_LocadorasParceiras" isHorizontal="true">
+<dc:Bounds x="190" y="1230" width="4110" height="200"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="StartEvent_NotificacaoRecebida_di" bpmnElement="StartEvent_NotificacaoRecebida">
+<dc:Bounds x="242" y="382" width="36" height="36"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="216" y="425" width="89" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_TipoVeiculo_di" bpmnElement="Gateway_TipoVeiculo" isMarkerVisible="true">
+<dc:Bounds x="355" y="375" width="50" height="50"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="343" y="432" width="75" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_VerificarNotificacoesProprio_di" bpmnElement="Activity_VerificarNotificacoesProprio">
+<dc:Bounds x="480" y="140" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_IncluirInfracaoSankhyaProprio_di" bpmnElement="Activity_IncluirInfracaoSankhyaProprio">
+<dc:Bounds x="630" y="140" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="ServiceTask_StreamlitProprio_di" bpmnElement="ServiceTask_StreamlitProprio">
+<dc:Bounds x="780" y="140" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AnalisarInfoStreamlitProprio_di" bpmnElement="Activity_AnalisarInfoStreamlitProprio">
+<dc:Bounds x="930" y="140" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_CondutorIdentificadoProprio_di" bpmnElement="Gateway_CondutorIdentificadoProprio" isMarkerVisible="true">
+<dc:Bounds x="1085" y="155" width="50" height="50"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="1065" y="125" width="90" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AcionarMonitoriaProprio_di" bpmnElement="Activity_AcionarMonitoriaProprio">
+<dc:Bounds x="1190" y="140" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_PesquisaAdicionalProprio_di" bpmnElement="Activity_PesquisaAdicionalProprio">
+<dc:Bounds x="1350" y="1115" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_EnviarNotificacaoSupervisorProprio_di" bpmnElement="Activity_EnviarNotificacaoSupervisorProprio">
+<dc:Bounds x="1190" y="270" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_ColetarAssinaturaProprio_di" bpmnElement="Activity_ColetarAssinaturaProprio">
+<dc:Bounds x="1350" y="790" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AssinarValeDescontoProprio_di" bpmnElement="Activity_AssinarValeDescontoProprio">
+<dc:Bounds x="1510" y="965" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_EnviarDocCorporativoProprio_di" bpmnElement="Activity_EnviarDocCorporativoProprio">
+<dc:Bounds x="1670" y="790" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_MergeIdentificacaoProprio_di" bpmnElement="Gateway_MergeIdentificacaoProprio" isMarkerVisible="true">
+<dc:Bounds x="1835" y="155" width="50" height="50"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AtualizarStatusSankhyaProprio_di" bpmnElement="Activity_AtualizarStatusSankhyaProprio">
+<dc:Bounds x="1940" y="140" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_AnalisarRecursoProprio_di" bpmnElement="Gateway_AnalisarRecursoProprio" isMarkerVisible="true">
+<dc:Bounds x="2095" y="155" width="50" height="50"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2075" y="118" width="90" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_ElaborarRecursoProprio_di" bpmnElement="Activity_ElaborarRecursoProprio">
+<dc:Bounds x="2200" y="140" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_RecursoAceitoProprio_di" bpmnElement="Gateway_RecursoAceitoProprio" isMarkerVisible="true">
+<dc:Bounds x="2355" y="155" width="50" height="50"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2352" y="125" width="57" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_EncerrarProcessoCanceladoProprio_di" bpmnElement="Activity_EncerrarProcessoCanceladoProprio">
+<dc:Bounds x="2460" y="140" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="EndEvent_MultaCanceladaProprio_di" bpmnElement="EndEvent_MultaCanceladaProprio">
+<dc:Bounds x="2612" y="162" width="36" height="36"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2590" y="205" width="80" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_MergePagamentoProprio_di" bpmnElement="Gateway_MergePagamentoProprio" isMarkerVisible="true">
+<dc:Bounds x="2355" y="285" width="50" height="50"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_GerarBoletoSNE_di" bpmnElement="Activity_GerarBoletoSNE">
+<dc:Bounds x="2460" y="270" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AnexarBoletoGerarFinanceiro_di" bpmnElement="Activity_AnexarBoletoGerarFinanceiro">
+<dc:Bounds x="2620" y="270" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_TransferirPontuacaoProprio_di" bpmnElement="Activity_TransferirPontuacaoProprio">
+<dc:Bounds x="2780" y="270" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="EndEvent_MultaPagaProprio_di" bpmnElement="EndEvent_MultaPagaProprio">
+<dc:Bounds x="2932" y="292" width="36" height="36"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2908" y="335" width="85" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_ReceberNotificacaoAlugado_di" bpmnElement="Activity_ReceberNotificacaoAlugado">
+<dc:Bounds x="480" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_LancarInfracaoSankhyaAlugado_di" bpmnElement="Activity_LancarInfracaoSankhyaAlugado">
+<dc:Bounds x="630" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="ServiceTask_StreamlitAlugado_di" bpmnElement="ServiceTask_StreamlitAlugado">
+<dc:Bounds x="780" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AnalisarInfoStreamlitAlugado_di" bpmnElement="Activity_AnalisarInfoStreamlitAlugado">
+<dc:Bounds x="930" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_CondutorIdentificadoAlugado_di" bpmnElement="Gateway_CondutorIdentificadoAlugado" isMarkerVisible="true">
+<dc:Bounds x="1085" y="595" width="50" height="50"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="1065" y="565" width="90" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AcionarMonitoriaAlugado_di" bpmnElement="Activity_AcionarMonitoriaAlugado">
+<dc:Bounds x="1190" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_PesquisaAdicionalAlugado_di" bpmnElement="Activity_PesquisaAdicionalAlugado">
+<dc:Bounds x="1350" y="1115" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_EnviarNotificacaoSupervisorAlugado_di" bpmnElement="Activity_EnviarNotificacaoSupervisorAlugado">
+<dc:Bounds x="1190" y="470" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_ColetarAssinaturaAlugado_di" bpmnElement="Activity_ColetarAssinaturaAlugado">
+<dc:Bounds x="1350" y="790" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AssinarValeDescontoAlugado_di" bpmnElement="Activity_AssinarValeDescontoAlugado">
+<dc:Bounds x="1510" y="965" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_EnviarDocCorporativoAlugado_di" bpmnElement="Activity_EnviarDocCorporativoAlugado">
+<dc:Bounds x="1670" y="790" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_MergeIdentificacaoAlugado_di" bpmnElement="Gateway_MergeIdentificacaoAlugado" isMarkerVisible="true">
+<dc:Bounds x="1835" y="595" width="50" height="50"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AtualizarStatusSankhyaAlugado_di" bpmnElement="Activity_AtualizarStatusSankhyaAlugado">
+<dc:Bounds x="1940" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_AnalisarRecursoAlugado_di" bpmnElement="Gateway_AnalisarRecursoAlugado" isMarkerVisible="true">
+<dc:Bounds x="2095" y="595" width="50" height="50"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2075" y="558" width="90" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AcionarLocadoraRecurso_di" bpmnElement="Activity_AcionarLocadoraRecurso">
+<dc:Bounds x="2200" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_ElaborarRecursoAlugado_di" bpmnElement="Activity_ElaborarRecursoAlugado">
+<dc:Bounds x="2460" y="1280" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_RecursoAceitoAlugado_di" bpmnElement="Gateway_RecursoAceitoAlugado" isMarkerVisible="true">
+<dc:Bounds x="2705" y="595" width="50" height="50"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2702" y="565" width="57" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_EncerrarProcessoCanceladoAlugado_di" bpmnElement="Activity_EncerrarProcessoCanceladoAlugado">
+<dc:Bounds x="2810" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="EndEvent_MultaCanceladaAlugado_di" bpmnElement="EndEvent_MultaCanceladaAlugado">
+<dc:Bounds x="2962" y="602" width="36" height="36"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2940" y="645" width="80" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Gateway_MergePagamentoAlugado_di" bpmnElement="Gateway_MergePagamentoAlugado" isMarkerVisible="true">
+<dc:Bounds x="3065" y="595" width="50" height="50"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_GerarDocContasPagar_di" bpmnElement="Activity_GerarDocContasPagar">
+<dc:Bounds x="3170" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_AnexarBoletoAtualizarData_di" bpmnElement="Activity_AnexarBoletoAtualizarData">
+<dc:Bounds x="3330" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Activity_TransferirPontuacaoAlugado_di" bpmnElement="Activity_TransferirPontuacaoAlugado">
+<dc:Bounds x="3490" y="580" width="100" height="80"/>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="EndEvent_MultaPagaAlugado_di" bpmnElement="EndEvent_MultaPagaAlugado">
+<dc:Bounds x="3642" y="602" width="36" height="36"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="3618" y="645" width="85" height="27"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="Flow_To_GatewayTipoVeiculo_di" bpmnElement="Flow_To_GatewayTipoVeiculo">
+<di:waypoint x="278" y="400"/>
+<di:waypoint x="355" y="400"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_VeiculoProprio_di" bpmnElement="Flow_VeiculoProprio">
+<di:waypoint x="380" y="375"/>
+<di:waypoint x="380" y="180"/>
+<di:waypoint x="480" y="180"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="390" y="275" width="84" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_VeiculoAlugado_di" bpmnElement="Flow_VeiculoAlugado">
+<di:waypoint x="380" y="425"/>
+<di:waypoint x="380" y="620"/>
+<di:waypoint x="480" y="620"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="388" y="520" width="88" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0kpycjd_di" bpmnElement="Flow_0kpycjd">
+<di:waypoint x="580" y="180"/>
+<di:waypoint x="630" y="180"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_07t8k1x_di" bpmnElement="Flow_07t8k1x">
+<di:waypoint x="730" y="180"/>
+<di:waypoint x="780" y="180"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1v2wpof_di" bpmnElement="Flow_1v2wpof">
+<di:waypoint x="880" y="180"/>
+<di:waypoint x="930" y="180"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0v82e07_di" bpmnElement="Flow_0v82e07">
+<di:waypoint x="1030" y="180"/>
+<di:waypoint x="1085" y="180"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_CondutorNaoIdentificadoProprio_di" bpmnElement="Flow_CondutorNaoIdentificadoProprio">
+<di:waypoint x="1135" y="180"/>
+<di:waypoint x="1190" y="180"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="1154" y="162" width="22" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_CondutorIdentificadoProprio_di" bpmnElement="Flow_CondutorIdentificadoProprio">
+<di:waypoint x="1110" y="205"/>
+<di:waypoint x="1110" y="310"/>
+<di:waypoint x="1190" y="310"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="1118" y="255" width="19" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1g97y17_di" bpmnElement="Flow_1g97y17">
+<di:waypoint x="1240" y="220"/>
+<di:waypoint x="1240" y="1155"/>
+<di:waypoint x="1350" y="1155"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_14r9s7c_di" bpmnElement="Flow_14r9s7c">
+<di:waypoint x="1450" y="1155"/>
+<di:waypoint x="1860" y="1155"/>
+<di:waypoint x="1860" y="205"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0q28qfu_di" bpmnElement="Flow_0q28qfu">
+<di:waypoint x="1240" y="350"/>
+<di:waypoint x="1240" y="830"/>
+<di:waypoint x="1350" y="830"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_07y0pdx_di" bpmnElement="Flow_07y0pdx">
+<di:waypoint x="1400" y="870"/>
+<di:waypoint x="1400" y="1005"/>
+<di:waypoint x="1510" y="1005"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_12m78c5_di" bpmnElement="Flow_12m78c5">
+<di:waypoint x="1560" y="965"/>
+<di:waypoint x="1560" y="830"/>
+<di:waypoint x="1670" y="830"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0s36t13_di" bpmnElement="Flow_0s36t13">
+<di:waypoint x="1770" y="830"/>
+<di:waypoint x="1860" y="830"/>
+<di:waypoint x="1860" y="205"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1l89x5e_di" bpmnElement="Flow_1l89x5e">
+<di:waypoint x="1885" y="180"/>
+<di:waypoint x="1940" y="180"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1d1fjd0_di" bpmnElement="Flow_1d1fjd0">
+<di:waypoint x="2040" y="180"/>
+<di:waypoint x="2095" y="180"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_RecorrerProprio_di" bpmnElement="Flow_RecorrerProprio">
+<di:waypoint x="2145" y="180"/>
+<di:waypoint x="2200" y="180"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2164" y="162" width="19" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_PagarProprio_di" bpmnElement="Flow_PagarProprio">
+<di:waypoint x="2120" y="205"/>
+<di:waypoint x="2120" y="310"/>
+<di:waypoint x="2355" y="310"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2128" y="255" width="22" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_065v4i9_di" bpmnElement="Flow_065v4i9">
+<di:waypoint x="2300" y="180"/>
+<di:waypoint x="2355" y="180"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_RecursoNaoAceitoProprio_di" bpmnElement="Flow_RecursoNaoAceitoProprio">
+<di:waypoint x="2380" y="205"/>
+<di:waypoint x="2380" y="285"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2388" y="242" width="22" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_RecursoAceitoProprio_di" bpmnElement="Flow_RecursoAceitoProprio">
+<di:waypoint x="2405" y="180"/>
+<di:waypoint x="2460" y="180"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2424" y="162" width="19" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_01s750m_di" bpmnElement="Flow_01s750m">
+<di:waypoint x="2560" y="180"/>
+<di:waypoint x="2612" y="180"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0j33yvj_di" bpmnElement="Flow_0j33yvj">
+<di:waypoint x="2405" y="310"/>
+<di:waypoint x="2460" y="310"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0o95c6p_di" bpmnElement="Flow_0o95c6p">
+<di:waypoint x="2560" y="310"/>
+<di:waypoint x="2620" y="310"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_14a4bza_di" bpmnElement="Flow_14a4bza">
+<di:waypoint x="2720" y="310"/>
+<di:waypoint x="2780" y="310"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0n34wst_di" bpmnElement="Flow_0n34wst">
+<di:waypoint x="2880" y="310"/>
+<di:waypoint x="2932" y="310"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0y1npgf_di" bpmnElement="Flow_0y1npgf">
+<di:waypoint x="580" y="620"/>
+<di:waypoint x="630" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_09p663w_di" bpmnElement="Flow_09p663w">
+<di:waypoint x="730" y="620"/>
+<di:waypoint x="780" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_015k39n_di" bpmnElement="Flow_015k39n">
+<di:waypoint x="880" y="620"/>
+<di:waypoint x="930" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_01r3g2l_di" bpmnElement="Flow_01r3g2l">
+<di:waypoint x="1030" y="620"/>
+<di:waypoint x="1085" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_CondutorNaoIdentificadoAlugado_di" bpmnElement="Flow_CondutorNaoIdentificadoAlugado">
+<di:waypoint x="1135" y="620"/>
+<di:waypoint x="1190" y="620"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="1154" y="602" width="22" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_CondutorIdentificadoAlugado_di" bpmnElement="Flow_CondutorIdentificadoAlugado">
+<di:waypoint x="1110" y="595"/>
+<di:waypoint x="1110" y="510"/>
+<di:waypoint x="1190" y="510"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="1118" y="543" width="19" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_186x24a_di" bpmnElement="Flow_186x24a">
+<di:waypoint x="1240" y="660"/>
+<di:waypoint x="1240" y="1155"/>
+<di:waypoint x="1350" y="1155"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_16157f1_di" bpmnElement="Flow_16157f1">
+<di:waypoint x="1450" y="1155"/>
+<di:waypoint x="1860" y="1155"/>
+<di:waypoint x="1860" y="645"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_17e7539_di" bpmnElement="Flow_17e7539">
+<di:waypoint x="1240" y="550"/>
+<di:waypoint x="1240" y="830"/>
+<di:waypoint x="1350" y="830"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1h8a0m2_di" bpmnElement="Flow_1h8a0m2">
+<di:waypoint x="1400" y="870"/>
+<di:waypoint x="1400" y="1005"/>
+<di:waypoint x="1510" y="1005"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1q7654x_di" bpmnElement="Flow_1q7654x">
+<di:waypoint x="1560" y="965"/>
+<di:waypoint x="1560" y="830"/>
+<di:waypoint x="1670" y="830"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0kdx9b8_di" bpmnElement="Flow_0kdx9b8">
+<di:waypoint x="1770" y="830"/>
+<di:waypoint x="1860" y="830"/>
+<di:waypoint x="1860" y="645"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_07s33pe_di" bpmnElement="Flow_07s33pe">
+<di:waypoint x="1885" y="620"/>
+<di:waypoint x="1940" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1l81b5p_di" bpmnElement="Flow_1l81b5p">
+<di:waypoint x="2040" y="620"/>
+<di:waypoint x="2095" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_RecorrerAlugado_di" bpmnElement="Flow_RecorrerAlugado">
+<di:waypoint x="2145" y="620"/>
+<di:waypoint x="2200" y="620"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2164" y="602" width="19" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_PagarAlugado_di" bpmnElement="Flow_PagarAlugado">
+<di:waypoint x="2120" y="645"/>
+<di:waypoint x="2120" y="620"/>
+<di:waypoint x="3065" y="620"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2584" y="602" width="22" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_14r2e7w_di" bpmnElement="Flow_14r2e7w">
+<di:waypoint x="2250" y="660"/>
+<di:waypoint x="2250" y="1320"/>
+<di:waypoint x="2460" y="1320"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_008t07b_di" bpmnElement="Flow_008t07b">
+<di:waypoint x="2560" y="1320"/>
+<di:waypoint x="2730" y="1320"/>
+<di:waypoint x="2730" y="645"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_RecursoNaoAceitoAlugado_di" bpmnElement="Flow_RecursoNaoAceitoAlugado">
+<di:waypoint x="2755" y="620"/>
+<di:waypoint x="3065" y="620"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2901" y="602" width="22" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_RecursoAceitoAlugado_di" bpmnElement="Flow_RecursoAceitoAlugado">
+<di:waypoint x="2755" y="620"/>
+<di:waypoint x="2810" y="620"/>
+<bpmndi:BPMNLabel>
+<dc:Bounds x="2774" y="602" width="19" height="14"/>
+</bpmndi:BPMNLabel>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_146j8wu_di" bpmnElement="Flow_146j8wu">
+<di:waypoint x="2910" y="620"/>
+<di:waypoint x="2962" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1u325e1_di" bpmnElement="Flow_1u325e1">
+<di:waypoint x="3115" y="620"/>
+<di:waypoint x="3170" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_1t8857z_di" bpmnElement="Flow_1t8857z">
+<di:waypoint x="3270" y="620"/>
+<di:waypoint x="3330" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0e07198_di" bpmnElement="Flow_0e07198">
+<di:waypoint x="3430" y="620"/>
+<di:waypoint x="3490" y="620"/>
+</bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_0w04z2b_di" bpmnElement="Flow_0w04z2b">
+<di:waypoint x="3590" y="620"/>
+<di:waypoint x="3642" y="620"/>
+</bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane>
+</bpmndi:BPMNDiagram>
+</bpmn:definitions>
